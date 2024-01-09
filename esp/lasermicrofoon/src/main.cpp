@@ -13,13 +13,13 @@ ADCSampler *adcSampler = NULL;
 I2SSampler *i2sSampler = NULL;
 
 // replace this with your machines IP Address
-#define ADC_SERVER_URL "http://192.168.2.7:5003/adc_samples"
-#define I2S_SERVER_URL "http://192.168.2.7:5003/i2s_samples"
+#define ADC_SERVER_URL "http://192.168.137.1:5003/adc_samples"
+#define I2S_SERVER_URL "http://192.168.137.1:5003/i2s_samples"
 
 // i2s config for using the internal ADC
 i2s_config_t adcI2SConfig = {
     .mode = (i2s_mode_t)(I2S_MODE_MASTER | I2S_MODE_RX | I2S_MODE_ADC_BUILT_IN),
-    .sample_rate = 16000,
+    .sample_rate = 44000,
     .bits_per_sample = I2S_BITS_PER_SAMPLE_16BIT,
     .channel_format = I2S_CHANNEL_FMT_ONLY_LEFT,
     .communication_format = I2S_COMM_FORMAT_I2S_LSB,
@@ -109,7 +109,7 @@ void setup()
   WiFi.begin(SSID, PASSWORD);
   while (WiFi.waitForConnectResult() != WL_CONNECTED)
   {
-    Serial.print(".");
+    Serial.print("..");
     delay(1000);
   }
   Serial.println("");
@@ -117,6 +117,7 @@ void setup()
   Serial.println("Started up");
   // indicator LED
   pinMode(2, OUTPUT);
+
   // setup the HTTP Client
   wifiClientADC = new WiFiClient();
   httpClientADC = new HTTPClient();
@@ -141,7 +142,7 @@ void setup()
   // TaskHandle_t i2sMemsWriterTaskHandle;
   // xTaskCreatePinnedToCore(i2sMemsWriterTask, "I2S Writer Task", 4096, i2sSampler, 1, &i2sMemsWriterTaskHandle, 1);
 
-  // // start sampling from i2s device
+  // start sampling from i2s device
 }
 
 void loop()

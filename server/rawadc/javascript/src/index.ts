@@ -43,7 +43,7 @@ app.get("/samples", async(req, res)=>{
 
 
 // start the Express server
-app.listen(port, '192.168.2.7', () => {
+app.listen(port, '0.0.0.0', () => {
   // tslint:disable-next-line:no-console
   console.log(`server started at http://0.0.0.0:${port}`);
 });

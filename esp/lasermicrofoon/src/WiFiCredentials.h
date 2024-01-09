@@ -1,2 +1,2 @@
-#define SSID "WE2-AD2BBB"
-#define PASSWORD "AcA8@UovHATu"
+#define SSID "ESP_WIFI"
+#define PASSWORD "123456789"
