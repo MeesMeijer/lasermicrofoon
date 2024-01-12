@@ -5,6 +5,11 @@
 #include "I2SMEMSSampler.h"
 #include "ADCSampler.h"
 
+#include "soc/soc.h"
+#include "soc/rtc_cntl_reg.h"
+
+// in setup()
+
 WiFiClient *wifiClientADC = NULL;
 HTTPClient *httpClientADC = NULL;
 WiFiClient *wifiClientI2S = NULL;
@@ -102,6 +107,8 @@ void i2sMemsWriterTask(void *param)
 
 void setup()
 {
+  WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0);
+
   Serial.begin(115200);
   // launch WiFi
   Serial.printf("Connecting to WiFi");
