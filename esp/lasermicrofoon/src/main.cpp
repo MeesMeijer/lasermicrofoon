@@ -37,12 +37,12 @@ i2s_config_t adcI2SConfig = {
 
 // i2s config for reading from left channel of I2S
 i2s_config_t i2sMemsConfigLeftChannel = {
-    .mode = (i2s_mode_t)(I2S_MODE_MASTER | I2S_MODE_RX),
-    .sample_rate = 16000,
-    .bits_per_sample = I2S_BITS_PER_SAMPLE_32BIT,
+    .mode = (i2s_mode_t)(I2S_MODE_SLAVE | I2S_MODE_RX),
+    .sample_rate = 44100,
+    .bits_per_sample = I2S_BITS_PER_SAMPLE_16BIT,
     .channel_format = I2S_CHANNEL_FMT_ONLY_LEFT,
-    .communication_format = i2s_comm_format_t(I2S_COMM_FORMAT_I2S),
-    .intr_alloc_flags = ESP_INTR_FLAG_LEVEL1,
+    .communication_format = i2s_comm_format_t(I2S_COMM_FORMAT_STAND_I2S ),
+    .intr_alloc_flags = 0,
     .dma_buf_count = 4,
     .dma_buf_len = 1024,
     .use_apll = false,
@@ -51,10 +51,11 @@ i2s_config_t i2sMemsConfigLeftChannel = {
 
 // i2s pins
 i2s_pin_config_t i2sPins = {
-    .bck_io_num = GPIO_NUM_32,
+    // .mck_io_num = GPIO_NUM_1,
+    .bck_io_num = GPIO_NUM_21,
     .ws_io_num = GPIO_NUM_25,
     .data_out_num = I2S_PIN_NO_CHANGE,
-    .data_in_num = GPIO_NUM_33};
+    .data_in_num = GPIO_NUM_26};
 
 // how many samples to read at once
 const int SAMPLE_SIZE = 16384;
@@ -101,6 +102,7 @@ void i2sMemsWriterTask(void *param)
   while (true)
   {
     int samples_read = sampler->read(samples, SAMPLE_SIZE);
+    // Serial.println(sizeof(samples_read));
     sendData(wifiClientI2S, httpClientI2S, I2S_SERVER_URL, (uint8_t *)samples, samples_read * sizeof(uint16_t));
   }
 }
@@ -135,19 +137,19 @@ void setup()
   // input from analog microphones such as the MAX9814 or MAX4466
   // internal analog to digital converter sampling using i2s
   // create our samplers
-  adcSampler = new ADCSampler(ADC_UNIT_1, ADC1_CHANNEL_7, adcI2SConfig);
+  // adcSampler = new ADCSampler(ADC_UNIT_1, ADC1_CHANNEL_7, adcI2SConfig);
 
   // set up the adc sample writer task
-  TaskHandle_t adcWriterTaskHandle;
-  adcSampler->start();
-  xTaskCreatePinnedToCore(adcWriterTask, "ADC Writer Task", 4096, adcSampler, 1, &adcWriterTaskHandle, 1);
+  // TaskHandle_t adcWriterTaskHandle;
+  // adcSampler->start();
+  // xTaskCreatePinnedToCore(adcWriterTask, "ADC Writer Task", 4096, adcSampler, 1, &adcWriterTaskHandle, 1);
 
   // Direct i2s input from INMP441 or the SPH0645
-  // i2sSampler = new I2SMEMSSampler(I2S_NUM_0, i2sPins, i2sMemsConfigLeftChannel, false);
-  // i2sSampler->start();
-  // // set up the i2s sample writer task
-  // TaskHandle_t i2sMemsWriterTaskHandle;
-  // xTaskCreatePinnedToCore(i2sMemsWriterTask, "I2S Writer Task", 4096, i2sSampler, 1, &i2sMemsWriterTaskHandle, 1);
+  i2sSampler = new I2SMEMSSampler(I2S_NUM_0, i2sPins, i2sMemsConfigLeftChannel, false);
+  i2sSampler->start();
+  // set up the i2s sample writer task
+  TaskHandle_t i2sMemsWriterTaskHandle;
+  xTaskCreatePinnedToCore(i2sMemsWriterTask, "I2S Writer Task", 4096, i2sSampler, 1, &i2sMemsWriterTaskHandle, 1);
 
   // start sampling from i2s device
 }

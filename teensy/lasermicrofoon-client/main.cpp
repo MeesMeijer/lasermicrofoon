@@ -8,7 +8,7 @@
 AudioSynthWaveform       wav1;
 AudioRecordQueue         queue;     //xy=504,468
 AudioConnection          patchCord1(wav1, queue);
-AudioO
+
 void setup() {
   Serial.begin(115200);
 
