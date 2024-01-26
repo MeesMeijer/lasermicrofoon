@@ -22,7 +22,7 @@ app.use(cors())
 app.post('/adc_samples', (req, res) => {
   // tslint:disable-next-line:no-console
   console.log(`Got ${req.body.length} ADC bytes`);
-  buffer.push(req.body)
+  // buffer.push(req.body)
   fs.appendFile('adc.raw', req.body, () => {
     res.send('OK');
   });

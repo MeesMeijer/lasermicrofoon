@@ -137,19 +137,19 @@ void setup()
   // input from analog microphones such as the MAX9814 or MAX4466
   // internal analog to digital converter sampling using i2s
   // create our samplers
-  // adcSampler = new ADCSampler(ADC_UNIT_1, ADC1_CHANNEL_7, adcI2SConfig);
+  adcSampler = new ADCSampler(ADC_UNIT_1, ADC1_CHANNEL_7, adcI2SConfig);
 
   // set up the adc sample writer task
-  // TaskHandle_t adcWriterTaskHandle;
-  // adcSampler->start();
-  // xTaskCreatePinnedToCore(adcWriterTask, "ADC Writer Task", 4096, adcSampler, 1, &adcWriterTaskHandle, 1);
+  TaskHandle_t adcWriterTaskHandle;
+  adcSampler->start();
+  xTaskCreatePinnedToCore(adcWriterTask, "ADC Writer Task", 4096, adcSampler, 1, &adcWriterTaskHandle, 1);
 
   // Direct i2s input from INMP441 or the SPH0645
-  i2sSampler = new I2SMEMSSampler(I2S_NUM_0, i2sPins, i2sMemsConfigLeftChannel, false);
-  i2sSampler->start();
-  // set up the i2s sample writer task
-  TaskHandle_t i2sMemsWriterTaskHandle;
-  xTaskCreatePinnedToCore(i2sMemsWriterTask, "I2S Writer Task", 4096, i2sSampler, 1, &i2sMemsWriterTaskHandle, 1);
+  // i2sSampler = new I2SMEMSSampler(I2S_NUM_0, i2sPins, i2sMemsConfigLeftChannel, false);
+  // i2sSampler->start();
+  // // set up the i2s sample writer task
+  // TaskHandle_t i2sMemsWriterTaskHandle;
+  // xTaskCreatePinnedToCore(i2sMemsWriterTask, "I2S Writer Task", 4096, i2sSampler, 1, &i2sMemsWriterTaskHandle, 1);
 
   // start sampling from i2s device
 }
