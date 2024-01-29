@@ -109,8 +109,6 @@ void i2sMemsWriterTask(void *param)
 
 void setup()
 {
-  WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0);
-
   Serial.begin(115200);
   // launch WiFi
   Serial.printf("Connecting to WiFi");

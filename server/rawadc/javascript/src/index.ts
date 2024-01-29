@@ -13,10 +13,9 @@ app.use(
     // inflate: true,
     type: '*/*'
   })
-
 );
-
 app.use(cors())
+
 
 // route to handle samples from the ADC - 16 bit single channel samples
 app.post('/adc_samples', (req, res) => {
@@ -27,20 +26,6 @@ app.post('/adc_samples', (req, res) => {
     res.send('OK');
   });
 });
-
-// route to handle samples from the I2S microphones - 32 bit stereo channel samples
-app.post('/i2s_samples', (req, res) => {
-  // tslint:disable-next-line:no-console
-  console.log(`Got ${req.body.length} I2S bytes`);
-  fs.appendFile('i2s.raw', req.body, () => {
-    res.send('OK');
-  });
-});
-
-app.get("/samples", async(req, res)=>{
-  res.send(buffer.shift())
-})
-
 
 // start the Express server
 app.listen(port, '0.0.0.0', () => {
