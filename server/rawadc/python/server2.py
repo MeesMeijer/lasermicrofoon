@@ -1,12 +1,11 @@
 from flask_socketio import SocketIO, emit, send
 from flask import Flask, request, make_response
 import numpy as np 
-import wave
+import wave, json
+
 app = Flask(__name__)
 # app.secret_key ="123123123"
 socketio = SocketIO(app)
-
-buffer: [np.uint16];
 
 
 
@@ -23,13 +22,17 @@ def adcsamples():
     return make_response("test", 200)
 
 
-
-
-
 @socketio.on("connect")
 def handleConnect():
     print("Ws connected")
 
+
+# data : {num_of_chunk: 0-inf, uuid_of_recording: "uuid"}
+@socketio.on("GET_CHUNK")
+def handleChunks(data: json):
+    
+    
+    pass 
 
 
 if __name__ == "__main__":

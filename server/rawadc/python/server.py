@@ -5,7 +5,7 @@ Fs = 44000
 bits = 16
 Ts = 1/44000
 CHUCK = 1024 ## bytes = 512 samples
- 
+
 
 print((Ts*leng )/ 2, "sec music")
 
@@ -26,4 +26,6 @@ with open(path, "rb") as file:
         out_f.writeframesraw(firstSamples)
 
         print(out_f.getnframes() / out_f.getframerate())
+
+
 
