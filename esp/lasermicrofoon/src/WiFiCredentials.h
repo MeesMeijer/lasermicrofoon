@@ -1,2 +1,2 @@
-#define SSID "ESP_WIFI"
-#define PASSWORD "123456789"
+#define SSID "Lasermicrofoon"
+#define PASSWORD "lasermicrofoon-groep4"

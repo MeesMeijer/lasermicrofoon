@@ -18,8 +18,8 @@ ADCSampler *adcSampler = NULL;
 I2SSampler *i2sSampler = NULL;
 
 // replace this with your machines IP Address
-#define ADC_SERVER_URL "http://192.168.137.1:5003/adc_samples"
-#define I2S_SERVER_URL "http://192.168.137.1:5003/i2s_samples"
+#define ADC_SERVER_URL "http://192.168.2.3:5003/adc_samples"
+#define I2S_SERVER_URL "http://192.168.2.3:5003/i2s_samples"
 
 // i2s config for using the internal ADC
 i2s_config_t adcI2SConfig = {
